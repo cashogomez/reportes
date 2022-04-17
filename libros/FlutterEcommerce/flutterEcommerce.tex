@@ -1,0 +1,105 @@
+\documentclass[12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{trfsigns}
+\usepackage{amssymb}
+\usepackage{subcaption}
+
+%Para listado de programas
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.5,0}
+\definecolor{mygray}{rgb}{0.7,0.7,0.7}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{aureolin}{rgb}{0.99, 0.93,0.0}
+
+\lstset{ %
+	 backgroundcolor=\color{aureolin},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	 basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+	 breaklines=true,            % Zeilen werden Umgebrochen
+	 keywordstyle=\color{red},
+	 commentstyle=\itshape\color{mygreen},    % comment style
+	 numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	 numbersep=5pt                   % how far the line-numbers are from the code
+}
+
+
+
+\newtheorem{thm}{Teorema}[section]
+\theoremstyle{definition}
+\newtheorem{dfn}{Definición}[section]
+\theoremstyle{remark}
+\newtheorem{note}{Nota}[section]
+\theoremstyle{plain}
+\newtheorem{lem}[thm]{Lema}
+
+\geometry{letterpaper}
+
+
+
+%un estilo propio
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{ \markboth{\chaptername\ \thechapter: #1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{ Sección \thesection. #1}{} }
+
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{ \nouppercase{\leftmark}} }
+\fancyhead[LO]{\textit{ \nouppercase{\rightmark}} }
+\fancyfoot[CE]{\textit{\textcopyright 2021 Departamento de I+D\\
+		SMARTEST} }
+\fancyfoot[CO]{\textit{Departamento de I+D, SMARTEST \\
+		Elaboró: Dr. Casimiro Gómez González} }	            
+\fancypagestyle{plain}{ %
+	\fancyhf{} % remove everything
+	\renewcommand{\headrulewidth}{0pt} % remove lines as well
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+
+
+\title{Desarrollo de App de comercio electrónico}
+\author{Dr. Casimiro Gómez González\\
+	Departamento de I+D, SMARTEST\\
+               correo: casimiro.gomez@smartest.mx\\
+               Tel: 222 707 4118}
+\date{Otoño 2021}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+
+\chapter{Prólogo}
+
+El comercio electrónico es una parte importante en el desarrollo empresarial de SMARTEST. Po ello se describe el desarrollo de dicho proyecto para tener las bases de diferentes tipos de aplicaciones a desarrollar en donde se tomará como punto de partida lo presentado en este proyecto.
+\begin{flushright}
+
+El autor\\
+Casimiro Gómez González\\
+Departamento de I+D, SMARTEST
+\end{flushright}
+
+\tableofcontents
+
+\mainmatter
+
+
+\chapter{Introducción}
+\input{capitulo1/capitulo1.tex}
+
+\chapter{Introducción}
+\input{capitulo2/capitulo2.tex}
+
+\backmatter
+\end{document}

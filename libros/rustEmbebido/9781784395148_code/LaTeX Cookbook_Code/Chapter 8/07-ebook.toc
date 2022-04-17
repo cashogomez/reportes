@@ -1,0 +1,9 @@
+\babel@toc {english}{}
+\contentsline {part}{\numberline {I}First portion}{3}{part.1}%
+\contentsline {chapter}{\numberline {1}The beginning}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}A first section}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Another section}{5}{section.1.2}%
+\contentsline {part}{\numberline {II}Appendix}{9}{part.2}%
+\contentsline {chapter}{\numberline {A}An addendum}{10}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Section within the appendix}{10}{section.A.1}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

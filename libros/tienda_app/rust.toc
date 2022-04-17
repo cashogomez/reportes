@@ -1,0 +1,22 @@
+\babel@toc {spanish}{}
+\contentsline {chapter}{Prólogo}{\es@scroman {iii}}{}%
+\contentsline {chapter}{\numberline {1}Diseño de la estructura APP}{1}{}%
+\contentsline {section}{\numberline {1.1}Estructura del Código APP}{1}{}%
+\contentsline {section}{\numberline {1.2}Construyendo la estructura de la \textbf {tienda}}{2}{}%
+\contentsline {section}{\numberline {1.3}Manejando estructuras con fábricas}{7}{}%
+\contentsline {section}{\numberline {1.4}Definiendo funcionalidad con rasgos (traits)}{9}{}%
+\contentsline {section}{\numberline {1.5}Interacción con el ambiente}{13}{}%
+\contentsline {subsection}{\numberline {1.5.1}Leyendo y escribiendo archivos \textbf {JSON}}{13}{}%
+\contentsline {section}{\numberline {1.6}Mejorando los rasgos}{16}{}%
+\contentsline {section}{\numberline {1.7}Procesando rasgos y estructuras}{18}{}%
+\contentsline {chapter}{\numberline {2}Diseño del servidor WEB}{23}{}%
+\contentsline {section}{\numberline {2.1}Lanzamiento de un servidor web Actix básico}{23}{}%
+\contentsline {section}{\numberline {2.2}Comprender los cierres}{24}{}%
+\contentsline {section}{\numberline {2.3}Entender la programación asíncrona}{26}{}%
+\contentsline {section}{\numberline {2.4}Entendiendo async y await}{30}{}%
+\contentsline {section}{\numberline {2.5}Gestión de vistas mediante el marco Actix Web}{36}{}%
+\contentsline {section}{\numberline {2.6}Poniendo todo junto}{42}{}%
+\contentsline {chapter}{\numberline {3}Procesando Solicitudes HTTP}{45}{}%
+\contentsline {section}{\numberline {3.1}Conociendo la configuración inicial}{45}{}%
+\contentsline {section}{\numberline {3.2}Pasando parámetros}{47}{}%
+\contentsline {section}{\numberline {3.3}Uso de macros para la serialización JSON}{51}{}%

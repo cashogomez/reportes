@@ -1,0 +1,79 @@
+\documentclass[11pt,fancy]{elegantbook}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{subfig}
+
+\title{Microcontroladores y Microprocesadores}
+\subtitle{Introducción a los microcontroladores con RUST}
+
+\author{Casimiro Gómez \& Carlos Gómez}
+\institute{Naktan}
+\date{Primavera, 2022}
+\version{0.1}
+\bioinfo{Bio}{Director del laboratorio de Sistemas Embebidos, UPAEP}
+
+\extrainfo{El único camino al éxito, es la disciplina}
+
+\logo{Smartest-Color.png}
+\cover{embebido.jpg}
+
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+
+
+%Para listado de programas
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.5,0}
+\definecolor{mygray}{rgb}{0.7,0.7,0.7}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{aureolin}{rgb}{0.99, 0.99,0.0}
+
+\lstset{ %
+	backgroundcolor=\color{aureolin},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+	breaklines=true,            % Zeilen werden Umgebrochen
+	keywordstyle=\color{red},
+	commentstyle=\itshape\color{mygreen},    % comment style
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt                   % how far the line-numbers are from the code
+}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\frontmatter
+\tableofcontents
+
+\mainmatter
+
+\chapter*{Prólogo}
+
+Los microcontroladores utilizan distintos ecosistemas para su manejo, algunas de las cuales implican niveles de conocimiento desde simples hasta complejos en cuanto al hardware y la arquitectura. Desde el ecosistema de \textbf{mbed} para microcontroladores de arquitectura ARM  donde el enfoque se va más a la programación, los librerias HAL de ST que implican un poco de conocimiento de arquitectura y más de programación, hasta la programación en C usando las librerías CMSIS de ARM o bien la que ocuparemos en este curso que es el ecosistema de desarrollo RUST.
+
+Se ha seleccionado el ecosistema de RUST por ser este uno de los lenguajes con mayor crecimiento y demanda en un futuro cercano. Ello implica que debemos desarrollar un conocimiento del hardware y del lenguaje a lo largo del curso.
+
+¡Bienvenidos y empecemos!
+
+\begin{flushright}
+
+El autor\\
+Casimiro Gómez González\\
+Departamento de I+D, SMARTEST
+\end{flushright}
+
+\chapter{Configuración del ecosistema Rust}
+\input{capitulo1/capitulo1.tex}
+
+
+\chapter{Mapa de Memoria}
+\input{capitulo2/capitulo2.tex}
+
+\chapter{Control de GPIO}
+\input{capitulo3/capitulo3.tex}
+
+\end{document}

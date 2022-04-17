@@ -1,0 +1,212 @@
+
+\documentclass[12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{trfsigns}
+\usepackage{amssymb}
+\usepackage{caption}
+
+\DeclareCaptionType{equ}[][]
+%\captionsetup[equ]{labelformat=empty}
+
+%Para listado de programas
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.5,0}
+\definecolor{mygray}{rgb}{0.7,0.7,0.7}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+	 backgroundcolor=\color{mygray},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	 basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+	 breaklines=true,            % Zeilen werden Umgebrochen
+	 keywordstyle=\color{red},
+	 commentstyle=\itshape\color{mygreen},    % comment style
+	 numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	 numbersep=5pt                   % how far the line-numbers are from the code
+}
+
+
+
+\newtheorem{thm}{Teorema}[section]
+\theoremstyle{definition}
+\newtheorem{dfn}{Definición}[section]
+\theoremstyle{remark}
+\newtheorem{note}{Nota}[section]
+\theoremstyle{plain}
+\newtheorem{lem}[thm]{Lema}
+
+\geometry{letterpaper}
+
+
+
+%un estilo propio
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{ \markboth{\chaptername\ \thechapter: #1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{ Sección \thesection. #1}{} }
+
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{ \nouppercase{\leftmark}} }
+\fancyhead[LO]{\textit{ \nouppercase{\rightmark}} }
+\fancyfoot[CE]{\textit{\textcopyright 2021 Departamento de I+D\\
+		SMARTEST} }
+\fancyfoot[CO]{\textit{Departamento de I+D, SMARTEST \\
+		Elaboró: Dr. Casimiro Gómez González} }	            
+\fancypagestyle{plain}{ %
+	\fancyhf{} % remove everything
+	\renewcommand{\headrulewidth}{0pt} % remove lines as well
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+
+
+\title{Percepción Remota}
+\author{Dr. Casimiro Gómez González\\
+	Departamento de I+D, SMARTEST\\
+               correo: casimiro.gomez@smartest.mx\\
+               Tel: 222 707 4118}
+\date{Otoño 2021}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+
+\chapter{Prólogo}
+
+La Percepción Remota es una disciplina basada en ciencia y  tecnología que permite  desarrollar, capturar, procesar y analizar imágenes, junto con otros datos físicos de la Tierra, obtenidos  desde sensores en el espacio, sensores aerotransportados y con sensores que capturan datos de mediciones in situ.
+
+
+La información adquirida con detectores a bordo de
+satélites o aviones ha resultado de gran utilidad para
+muchas y diferentes aplicaciones: agricultura,
+minería, fenómenos naturales, detección de aguas
+contaminadas; asimismo para el monitoreo de
+bosques y de glaciares, entre otras.
+A la técnica que nos permite adquirir información de
+un objeto o fenómeno sin estar en contacto con él se
+le conoce como percepción remota. Este término se
+utiliza comúnmente para referirse a la observación de
+nuestro planeta a través de cámaras y otros tipos de
+sensores, como los radares y las cámaras térmicas,
+montados, como ya mencionamos, en aviones o
+satélites.
+Las imágenes satelitales tienen diferentes
+características. Estas dependen de los sensores o
+detectores con las que son obtenidas. No es lo
+mismo una cámara en el visible que en el infrarrojo,
+por ejemplo. Esto es importante ya que la aplicación
+específica, el uso que se les dará, depende de estas
+peculiaridades.
+Las principales características de las imágenes
+satelitales se describen a continuación:
+Resolución espacial. Ésta corresponde al área sobre
+la Tierra que cubre cada pixel de la imagen. Por
+ejemplo, las imágenes obtenidas con los satélites
+GOES de la Administración Nacional Oceánica y
+Atmosférica (NOAA, por sus siglas en inglés) de los
+Estados Unidos tienen una resolución espacial de un
+kilómetro cuadrado. Con imágenes de esta resolución
+espacial es posible analizar el clima a nivel regional,
+por ejemplo, en todo México.
+Existen, desde luego, imágenes de mayor resolución,
+como las tomadas con el satélite comercial
+RapidEye, en las que un pixel cubre cinco metros
+cuadrados de área de la Tierra, Se utilizan para
+estudios de cobertura de suelo, monitoreo de
+inundaciones o para determinar el daño a cultivos
+provocado por inundaciones o granizo. Existen
+imágenes aún con mayor resolución, algunos
+satélites las obtienen con una resolución espacial de
+61 centímetros cuadrados, con la cual es posible
+trabajar en aplicaciones de catastro o aquellas que
+involucran la identificación de estructuras.
+Resolución espectral. Es importante conocer otras
+características de los sensores utilizados en los
+satélites, como son la región y ancho de banda del
+espectro electromagnético que pueden registrar, ya que ellas determinan la resolución espectral de la
+imagen. El espectro electromagnético va desde los
+rayos gamma (longitudes de onda cortas, frecuencias
+altas), los rayos X, la luz ultravioleta, luz visible (a la
+que el ojo humano es sensible y se compone de las
+bandas rojo, verde y azul), los rayos infrarrojos, las
+microondas y radiofrecuencia (longitudes de onda
+largas, frecuencias cortas). Algunos de los sensores
+registran radiación electromagnética en el intervalo
+del visible (como las cámaras digitales), el infrarrojo
+(cercano infrarrojo y térmico), mientras que otros
+registran microondas, como los radares.
+Las imágenes multi-espectrales están compuestas
+por varias bandas en el espectro electromagnético.
+Existen satélites que tienen una combinación de
+bandas del visible e infrarrojo. La combinación de
+bandas es determinante en el tipo de aplicaciones
+que se les da a las mismas. Por ejemplo, podemos
+utilizar las imágenes en el visible para identificar
+estructuras, y una combinación de bandas del visible
+y el cercano infrarrojo son ideales para identificar
+vegetación. Con las imágenes de radar es posible
+identificar estructuras aún de noche o cuando existe
+nubosidad y lluvia.
+Resolución temporal. Cada determinado tiempo
+podemos obtener una imagen del mismo lugar con el
+mismo satélite, esto nos define la resolución temporal
+de la imagen satelital. La periodicidad con la que se
+pueden obtener las imágenes es una característica
+relevante, ya que de este periodo de tiempo depende
+la capacidad que tendremos para detectar cambios
+en esa región. Estos cambios sirven para identificar
+zonas deforestadas, la evolución de una inundación y
+el progreso de un cultivo, entre otras.
+Resolución radiométrica. En una imagen satelital, la
+señal registrada por cada pixel de cada banda
+representa un valor de la luz reflejada por el área del
+objeto que cubre. La cantidad de valores diferentes
+para representar un pixel de la imagen nos define la
+resolución radiométrica de la imagen.
+
+Con los valores de estas características podemos
+darnos una idea de las aplicaciones de percepción
+remota en las que las podemos utilizar. Una de las
+problemáticas más importantes en las que
+históricamente se ha aplicado la percepción remota,
+son los fenómenos naturales. Existen mecanismos
+internacionales para facilitar ayuda a una nación
+cuando le ocurre un desastre. Al país afectado se le
+proporcionan imágenes satelitales de manera gratuita
+y si éste, por alguna razón, no tiene la capacidad de
+procesarla, también se presta ayuda para dicho
+procesamiento y se les entregan los productos
+derivados: mapas temáticos, que se utilizan para
+tomar decisiones en casos de inundaciones,
+terremotos, maremotos, huracanes, y otros.
+
+
+\begin{flushright}
+
+El autor\\
+Casimiro Gómez González\\
+Departamento de I+D, SMARTEST
+\end{flushright}
+
+\tableofcontents
+
+\mainmatter
+
+
+\chapter{Introducción a GNU Radio}
+\input{capitulo1/capitulo1.tex}
+
+\backmatter
+\end{document}

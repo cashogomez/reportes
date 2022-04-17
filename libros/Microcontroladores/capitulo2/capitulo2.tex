@@ -1,0 +1,230 @@
+Los dispositivos Cortex-M requieren que una tabla de vectores esté presente al comienzo de su región de memoria de código. La tabla de vectores es una matriz de punteros; los primeros dos punteros son necesarios para iniciar el dispositivo, el resto de los punteros están relacionados con excepciones. Los ignoraremos por ahora.
+
+Los enlazadores deciden el diseño final de la memoria de los programas, pero podemos usar scripts de enlazadores para tener cierto control sobre ellos. La granularidad de control que nos dan los scripts de linker sobre el layout es a nivel de secciones. Una sección es una colección de símbolos dispuestos en memoria contigua. Los símbolos, a su vez, pueden ser datos (una variable estática) o instrucciones (una función de Rust).
+
+Cada símbolo tiene un nombre asignado por el compilador. A partir de Rust 1.28, los nombres que el compilador de Rust asigna a los símbolos son de la forma: \_ZN5krate6module8function17he1dfc17c86fe16daE, que desarma a krate::module::function::he1dfc17c86fe16da donde \textbf{krate::module::function} es la ruta de la función o variable y \textbf{he1dfc17c86fe16da} es una especie de hash. El compilador de Rust colocará cada símbolo en su propia sección única; por ejemplo, el símbolo mencionado anteriormente se colocará en una sección denominada .text.\_ZN5krate6module8function17he1dfc17c86fe16daE.
+
+No se garantiza que estos símbolos y nombres de sección generados por el compilador permanezcan constantes en diferentes versiones del compilador de Rust. Sin embargo, el lenguaje nos permite controlar los nombres de los símbolos y la ubicación de las secciones a través de estos atributos:
+
+\begin{itemize}
+	\item \textbf{\#[export\_name = "foo"]} establece el nombre del símbolo en \textbf{foo}.
+	\item \textbf{\#[no\_mangle]} significa: use el nombre de la función o variable (no su ruta completa) como su nombre de símbolo.
+	\item \textbf{\#[no\_mangle] fn bar()} producirá un símbolo llamado bar.
+	\item \textbf{\#[link\_section = ".bar"]} coloca el símbolo en una sección llamada .bar.
+\end{itemize}
+
+\section{El lado de Rust}
+
+Como se mencionó anteriormente, para los dispositivos Cortex-M, debemos completar las dos primeras entradas de la tabla de vectores. El primero, el valor inicial para el puntero de la pila, se puede completar usando solo la secuencia de comandos del enlazador. El segundo, el vector de reinicio, debe crearse en código Rust y colocarse correctamente mediante el script del enlazador.
+
+El vector de reinicio es un puntero al controlador de reinicio. El controlador de restablecimiento es la función que ejecutará el dispositivo después de un restablecimiento del sistema o después de que se encienda por primera vez. El controlador de reinicio siempre es el primer marco de pila en la pila de llamadas de hardware; regresar de él es un comportamiento indefinido ya que no hay otro marco de pila al que regresar. Podemos hacer cumplir que el controlador de reinicio nunca regrese convirtiéndolo en una función divergente, que es una función con la firma \textbf{fn(/* .. */) -> !}.
+
+
+
+Con estos atributos, podemos exponer un ABI estable del programa y usarlo en el script del enlazador.
+
+
+\begin{lstlisting}[language=c]
+#[no_mangle]
+pub unsafe extern "C" fn Reset() -> ! {
+	let _x = 42;
+	
+	// can't return so we go into an infinite loop here
+	loop {}
+}
+
+// The reset vector, a pointer into the reset handler
+#[link_section = ".vector_table.reset_vector"]
+#[no_mangle]
+pub static RESET_VECTOR: unsafe extern "C" fn() -> ! = Reset;
+\end{lstlisting}
+
+
+El hardware espera un determinado formato aquí, al que nos adherimos usando \textit{extern "C"}  para decirle al compilador que reduzca la función usando C ABI, en lugar de Rust ABI, que es inestable.
+
+Para hacer referencia al controlador de reinicio y al vector de reinicio desde la secuencia de comandos del enlazador, necesitamos que tengan un nombre de símbolo estable, por lo que usamos \#[no\_mangle]. Necesitamos un control preciso sobre la ubicación de RESET\_VECTOR, por lo que lo colocamos en una sección conocida, .vector\_table.reset\_vector. La ubicación exacta del propio controlador de restablecimiento, Restablecer, no es importante. Nos limitamos a la sección generada por el compilador predeterminado.
+
+El enlazador ignorará los símbolos con enlace interno (también conocidos como símbolos internos) mientras recorre la lista de archivos de objetos de entrada, por lo que necesitamos que nuestros dos símbolos tengan enlace externo. La única forma de hacer que un símbolo sea externo en Rust es hacer que su elemento correspondiente sea público (pub) y accesible (sin un módulo privado entre el elemento y la raíz de la caja).
+
+\section{El lado del script del enlazador}
+
+A continuación se muestra un script de enlace mínimo que coloca la tabla de vectores en la ubicación correcta. Recorrámoslo.
+
+\begin{lstlisting}[language=c]
+/* Memory layout of the STM32F411RE microcontroller */
+/* 1K = 1 KiBi = 1024 bytes */
+MEMORY
+{
+	FLASH : ORIGIN = 0x08000000, LENGTH = 512K
+	RAM : ORIGIN = 0x20000000, LENGTH = 128K
+}
+
+/* The entry point is the reset handler */
+ENTRY(Reset);
+
+EXTERN(RESET_VECTOR);
+
+SECTIONS
+{
+	.vector_table ORIGIN(FLASH) :
+	{
+		/* First entry: initial Stack Pointer value */
+		LONG(ORIGIN(RAM) + LENGTH(RAM));
+		
+		/* Second entry: reset vector */
+		KEEP(*(.vector_table.reset_vector));
+	} > FLASH
+	
+	.text :
+	{
+		*(.text .text.*);
+	} > FLASH
+	
+	/DISCARD/ :
+	{
+		*(.ARM.exidx .ARM.exidx.*);
+	}
+}
+
+\end{lstlisting}
+
+
+\subsection{MEMORIA}
+Esta sección del script del enlazador describe la ubicación y el tamaño de los bloques de memoria en el destino. Se definen dos bloques de memoria: FLASH y RAM; corresponden a la memoria física disponible en el destino. Los valores utilizados aquí corresponden al microcontrolador STM32F411RE.
+
+\subsection{ENTRADA}
+Aquí le indicamos al enlazador que el controlador de reinicio, cuyo nombre de símbolo es Reiniciar, es el punto de entrada del programa. Los enlazadores descartan agresivamente las secciones no utilizadas. Los enlazadores consideran el punto de entrada y las funciones llamadas desde él como usados, por lo que no los descartarán. Sin esta línea, el enlazador descartaría la función Restablecer y todas las funciones subsiguientes llamadas desde ella.
+
+\subsection{EXTERNO}
+Los enlazadores son perezosos; dejarán de buscar en los archivos de objetos de entrada una vez que hayan encontrado todos los símbolos a los que se hace referencia recursivamente desde el punto de entrada. \textbf{EXTERN} obliga al enlazador a buscar el argumento de \textbf{EXTERN} incluso después de que se hayan encontrado todos los demás símbolos a los que se hace referencia. Como regla general, si necesita que un símbolo que no se llama desde el punto de entrada esté siempre presente en el binario de salida, debe usar \textbf{EXTERN} junto con \textbf{KEEP}.
+
+\subsection{SECCIONES}
+Esta parte describe cómo se organizan las secciones de los archivos de objetos de entrada (también conocidas como secciones de entrada) en las secciones del archivo de objetos de salida (también conocidas como secciones de salida) o si se deben descartar. Aquí definimos dos secciones de salida:
+
+\begin{lstlisting}[language=c]
+.vector_table ORIGIN(FLASH) : { /* .. */ } > FLASH
+\end{lstlisting}
+
+
+\textbf{.vector\_table} contiene la tabla de vectores y se encuentra al comienzo de la memoria \textbf{FLASH}.
+
+
+\begin{lstlisting}[language=c]
+.text : { /* .. */ } > FLASH	
+\end{lstlisting}
+
+\textbf{.text} contiene las subrutinas del programa y se encuentra en algún lugar de \textbf{FLASH}. No se especifica su dirección de inicio, pero el enlazador la colocará después de la sección de salida anterior, \textbf{.vector\_table}.
+
+La sección de salida de la tabla de vectores \textbf{.vector\_table} contiene:
+
+\begin{lstlisting}[language=c]
+/* First entry: initial Stack Pointer value */
+LONG(ORIGIN(RAM) + LENGTH(RAM));
+\end{lstlisting}
+
+Colocaremos la pila (llamada) al final de la RAM (la pila desciende por completo; crece hacia direcciones más pequeñas) para que la dirección final de la RAM se use como el valor inicial del puntero de pila (SP). Esa dirección se calcula en el propio script del enlazador usando la información que ingresamos para el bloque de memoria RAM.
+
+
+\begin{lstlisting}[language=c]
+/* Second entry: reset vector */
+KEEP(*(.vector_table.reset_vector));
+\end{lstlisting}
+
+
+A continuación, usamos KEEP para obligar al enlazador a insertar todas las secciones de entrada denominadas .vector\_table.reset\_vector justo después del valor SP inicial. El único símbolo ubicado en esa sección es RESET\_VECTOR, por lo que esto colocará efectivamente a RESET\_VECTOR en segundo lugar en la tabla de vectores.
+
+La sección de salida .text contiene:
+
+\begin{lstlisting}[language=c]
+*(.texto .texto.*);
+\end{lstlisting}
+
+Esto incluye todas las secciones de entrada denominadas .text y .text.*. Tenga en cuenta que no usamos KEEP aquí para permitir que el enlazador descarte las secciones no utilizadas.
+
+Finalmente, usamos la sección especial /DESCARTAR/ para descartar
+
+\begin{lstlisting}[language=c]
+*(.ARM.exidx .ARM.exidx.*);
+\end{lstlisting}
+
+secciones de entrada denominadas .ARM.exidx.*. Estas secciones están relacionadas con el manejo de excepciones, pero no estamos deshaciendo la pila en caso de pánico y ocupan espacio en la memoria Flash, por lo que simplemente las descartamos.
+
+\section{Uniendo todo}
+
+Ahora podemos vincular la aplicación. Como referencia, aquí está el programa Rust completo:
+
+\begin{lstlisting}[language=c]
+#![no_main]
+#![no_std]
+
+use core::panic::PanicInfo;
+
+// The reset handler
+#[no_mangle]
+pub unsafe extern "C" fn Reset() -> ! {
+	let _x = 42;
+	
+	// can't return so we go into an infinite loop here
+	loop {}
+}
+
+// The reset vector, a pointer into the reset handler
+#[link_section = ".vector_table.reset_vector"]
+#[no_mangle]
+pub static RESET_VECTOR: unsafe extern "C" fn() -> ! = Reset;
+
+#[panic_handler]
+fn panic(_panic: &PanicInfo<'_>) -> ! {
+	loop {}
+}
+\end{lstlisting}
+
+
+Tenemos que modificar el proceso del enlazador para que use nuestro script del enlazador. Esto se hace pasando el indicador -C link-arg a rustc. Esto se puede hacer con cargo-rustc o cargo-build.
+
+IMPORTANTE: asegúrese de tener el archivo .cargo/config que se agregó al final de la última sección antes de ejecutar este comando.
+
+
+Usando el subcomando cargo-rustc:
+
+\begin{lstlisting}[language=c]
+	cargo rustc -- -C link-arg=-Tlink.x
+\end{lstlisting}
+
+
+O puede configurar los rustflags en .cargo/config y continuar usando el subcomando cargo-build. Haremos lo último porque se integra mejor con cargo-binutils.
+
+\begin{lstlisting}[language=c]
+# modify .cargo/config so it has these contents
+cat .cargo/config
+\end{lstlisting}
+
+quedando
+
+
+\begin{lstlisting}[language=c]
+[target.thumbv7m-none-eabi]
+rustflags = ["-C", "link-arg=-Tlink.x"]
+
+[build]
+target = "thumbv7m-none-eabi"
+\end{lstlisting}
+
+La parte \textbf{[target.thumbv7m-none-eabi]} dice que estas banderas solo se usarán cuando se realice una compilación cruzada para ese objetivo.
+
+
+\section{revisando}
+
+Ahora, inspeccionemos el binario de salida para confirmar que el diseño de la memoria se vea como queremos (esto requiere cargo-binutils):
+
+\begin{lstlisting}[language=c]
+cargo objdump --bin app -- -d -no-show-raw-insn
+\end{lstlisting}
+
+Este es el desmontaje de la sección .text. Vemos que el controlador de reinicio, llamado Restablecer, se encuentra en la dirección 0x8.
+
+\begin{lstlisting}[language=c]
+cargo objdump --bin app -- -s -section .vector_table
+\end{lstlisting}
+
+Esto muestra el contenido de la sección .vector\_table. Podemos ver que la sección comienza en la dirección 0x0 y que la primera palabra de la sección es 0x2001\_0000 (la salida de objdump está en formato little endian). Este es el valor SP inicial y coincide con la dirección final de la RAM. La segunda palabra es 0x9; esta es la dirección del modo pulgar del controlador de reinicio. Cuando se va a ejecutar una función en modo pulgar, el primer bit de su dirección se establece en 1.

@@ -1,0 +1,106 @@
+\documentclass[12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{trfsigns}
+\usepackage{amssymb}
+
+
+%Para listado de programas
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0.95,0.9,0}
+\definecolor{mygray}{rgb}{0.7,0.7,0.7}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+	 backgroundcolor=\color{mygreen},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	 basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+	 breaklines=true,            % Zeilen werden Umgebrochen
+	 keywordstyle=\color{red},
+	 commentstyle=\itshape\color{mygreen},    % comment style
+	 numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	 numbersep=5pt                   % how far the line-numbers are from the code
+}
+
+
+
+\newtheorem{thm}{Teorema}[section]
+\theoremstyle{definition}
+\newtheorem{dfn}{Definición}[section]
+\theoremstyle{remark}
+\newtheorem{note}{Nota}[section]
+\theoremstyle{plain}
+\newtheorem{lem}[thm]{Lema}
+
+\geometry{letterpaper}
+
+
+
+%un estilo propio
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{ \markboth{\chaptername\ \thechapter: #1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{ Sección \thesection. #1}{} }
+
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{ \nouppercase{\leftmark}} }
+\fancyhead[LO]{\textit{ \nouppercase{\rightmark}} }
+\fancyfoot[CE]{\textit{\textcopyright 2022\\
+		Naktan} }
+\fancyfoot[CO]{\textit{Departamento de I+D, SMARTEST \\
+		Elaboró: Dr. Casimiro Gómez González} }	            
+\fancypagestyle{plain}{ %
+	\fancyhf{} % remove everything
+	\renewcommand{\headrulewidth}{0pt} % remove lines as well
+	\renewcommand{\footrulewidth}{0pt}
+}
+
+\title{Aplicaciones con RUST}
+\author{Dr. Casimiro Gómez González\\
+	Departamento de I+D, SMARTEST\\
+               correo: casimiro.gomez@smartest.mx\\
+               Tel: 222 707 4118}
+\date{Primavera 2022}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+
+\chapter{Prólogo}
+
+El presente proyecto presenta las bases del desarrollo de un \textbf{API} basado en RUST. Los conceptos básicos del API han sido desarrollado a lo largo del presente documento desde sus bases hasta la primera aplicación de envío de correos. 
+´
+\begin{flushright}
+
+El autor\\
+Casimiro Gómez González\\
+Departamento de I+D, \textbf{SMARTEST}
+\end{flushright}
+
+\tableofcontents
+
+\mainmatter
+
+
+\chapter{Diseño de la estructura APP}
+\input{capitulo1/capitulo1.tex}
+
+\chapter{Diseño del servidor WEB}
+\input{capitulo2/capitulo2.tex}
+
+\chapter{Procesando Solicitudes HTTP}
+\input{capitulo3/capitulo3.tex}
+
+\backmatter
+\end{document}

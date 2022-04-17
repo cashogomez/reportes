@@ -1,0 +1,54 @@
+Con la comprensión básica de cómo funciona una \textbf{CNN}, y cómo se realiza el procesamiento de imágenes en el nivel más básico, estamos listos para continuar con el uso de modelos previamente entrenados de \textbf{\textit{Firebase ML Kit}} para detectar caras de las imágenes dadas.
+
+Usaremos la API de detección de rostros del kit \textbf{\textit{Firebase ML}} para detectar los rostros en una imagen. Las características clave de la API de detección de rostros de Firebase Vision son las siguientes:
+
+\begin{itemize}
+	\item Reconoce y devuelve las coordenadas de los rasgos faciales, como los ojos, las orejas, las mejillas, la nariz y la boca de cada rostro detectado.
+	\item Obtenga los contornos de los rostros y rasgos faciales detectados.
+	\item Detecta expresiones faciales, como si una persona está sonriendo o tiene un ojo cerrado.
+	\item Obtenga un identificador para cada rostro individual detectado en un cuadro de video. Este identificador es consistente en todas las invocaciones y se puede usar para realizar la manipulación de imágenes en una cara particular en una transmisión de video.
+\end{itemize}
+
+Comencemos con el primer paso, agregando las dependencias requeridas.
+
+\section{Creando el proyecto y agregando dependencias}
+
+Como requisito previo debemos:
+
+\begin{itemize}
+	\item Tener instalado el SDK de  flutter en la computadora
+	\item Tener el instalado Android Studio
+	\item Haber instalado el plugin de flutter en android studio y aceptado la instalación de dart.
+\end{itemize}
+
+Primero crearemos un proyecto de flutter:
+
+\begin{lstlisting}[language=bash]
+	$ flutter create reconocimiento_facial
+\end{lstlisting} 
+
+Creado el proyecto ahora lo abrimos con Android estudio. Comenzamos agregando las dependencias \textbf{pub}. Una dependencia es un paquete externo que se requiere para que funcione una funcionalidad particular. Todas las dependencias requeridas para la aplicación se especifican en el archivo \textbf{pubspec.yaml}. Para cada dependencia, se debe mencionar el nombre del paquete. Esto generalmente va seguido de un número de versión que especifica qué versión del paquete queremos usar. Además, también se puede incluir la fuente del paquete, que le indica a la publicación cómo ubicar el paquete, y cualquier descripción que la fuente necesite para encontrar el paquete.
+
+Para obtener información sobre paquetes específicos, visite \textit{https://pub.dartlang.org/packages}. Las dependencias que usaremos para este proyecto son las siguientes:
+
+\begin{itemize}
+	\item \textbf{firebase\_ml\_vision}: un complemento de Flutter que agrega soporte para las funcionalidades de Firebase ML Kit.
+	\item \textbf{image\_picker}: un complemento de Flutter que permite tomar fotografías con la cámara y seleccionar imágenes de la biblioteca de imágenes de Android o iOS
+\end{itemize}
+
+
+
+Así es como se verá la sección de dependencias del archivo \textbf{pubspec.yaml} después de incluir las dependencias:
+
+dependencias:
+
+\begin{lstlisting}[language=bash]
+dependencies:
+	flutter:
+		sdk: flutter
+	google_ml_kit: ^0.7.3
+	image_picker: ^0.8.4+4
+\end{lstlisting} 
+
+Para usar las dependencias que hemos agregado al archivo \textbf{pubspec.yaml}, debemos instalarlas. Esto se puede hacer simplemente ejecutando \textbf{flutter pub get} en la Terminal o haciendo clic en Obtener paquetes, que se encuentra en el lado derecho de la cinta de acción en la parte superior del archivo \textbf{pubspec.yaml}. Una vez que hayamos instalado todas las dependencias, simplemente podemos importarlas a nuestro proyecto. Ahora, veamos la funcionalidad básica de la aplicación en la que trabajaremos.
+

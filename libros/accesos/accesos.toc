@@ -1,0 +1,19 @@
+\babel@toc {spanish}{}
+\contentsline {chapter}{Prólogo}{\es@scroman {iii}}{}%
+\contentsline {chapter}{\numberline {1}El proyecto de accesos}{1}{}%
+\contentsline {chapter}{\numberline {2}El controlador del acceso físico: torniquete o puerta}{3}{}%
+\contentsline {section}{\numberline {2.1}Proyecto Elixir Poncho con firmware elixir nerves y UI de Phoenix Liveview}{3}{}%
+\contentsline {subsection}{\numberline {2.1.1}Estructura base del proyecto}{4}{}%
+\contentsline {subsection}{\numberline {2.1.2}Sincronizando con la nube GitHub}{5}{}%
+\contentsline {subsection}{\numberline {2.1.3}Agregar al subproyecto firmware el subproyecto ui como dependencia}{5}{}%
+\contentsline {subsection}{\numberline {2.1.4}Configurar WiFi en el subproyecto Firmware}{5}{}%
+\contentsline {subsection}{\numberline {2.1.5}Configuración del web server en el subproyecto Firmware}{6}{}%
+\contentsline {section}{\numberline {2.2}Particularizando el sistema}{7}{}%
+\contentsline {section}{\numberline {2.3}Lectura a través de HID}{10}{}%
+\contentsline {subsection}{\numberline {2.3.1}hidraw}{10}{}%
+\contentsline {subsection}{\numberline {2.3.2}hiddev}{11}{}%
+\contentsline {subsection}{\numberline {2.3.3}Puertos HID del lector}{12}{}%
+\contentsline {subsubsection}{Código del programa lector.ex}{13}{}%
+\contentsline {subsubsection}{Código del genserver lector\_hid1.ex}{17}{}%
+\contentsline {subsubsection}{Código del genserver \textbf {cadena\_actual.ex}}{18}{}%
+\contentsline {section}{\numberline {2.4}Captura de datos del lector}{19}{}%

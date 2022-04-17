@@ -1,0 +1,24 @@
+\babel@toc {spanish}{}
+\contentsline {chapter}{Prólogo}{\es@scroman {iii}}{}%
+\contentsline {chapter}{\numberline {1}Introducción a aprendizaje profundo}{1}{}%
+\contentsline {section}{\numberline {1.1}Chips de IA}{2}{}%
+\contentsline {section}{\numberline {1.2}Experiencia de usuario mejorada con IA en dispositivos móviles}{3}{}%
+\contentsline {section}{\numberline {1.3}Personalización}{3}{}%
+\contentsline {section}{\numberline {1.4}Asistentes virtuales}{4}{}%
+\contentsline {section}{\numberline {1.5}Reconocimiento facial}{5}{}%
+\contentsline {section}{\numberline {1.6}Cámaras impulsadas por IA}{6}{}%
+\contentsline {section}{\numberline {1.7}Texto predictivo}{7}{}%
+\contentsline {section}{\numberline {1.8}Conceptos básicos del aprendizaje profundo}{8}{}%
+\contentsline {subsection}{\numberline {1.8.1}La capa de entrada}{9}{}%
+\contentsline {subsection}{\numberline {1.8.2}La capa oculta}{10}{}%
+\contentsline {subsubsection}{Sobreajuste y desajuste}{10}{}%
+\contentsline {section}{\numberline {1.9}La capa de salida}{13}{}%
+\contentsline {section}{\numberline {1.10}La función de activación}{13}{}%
+\contentsline {chapter}{\numberline {2}App de reconocimiento facial}{15}{}%
+\contentsline {section}{\numberline {2.1}Creando el proyecto y agregando dependencias}{15}{}%
+\contentsline {chapter}{\numberline {3}Conceptos básicos de TensorFlow}{19}{}%
+\contentsline {section}{\numberline {3.1}Usando Tensorflow}{21}{}%
+\contentsline {subsection}{\numberline {3.1.1}Instalando Tensorflow en python}{21}{}%
+\contentsline {section}{\numberline {3.2}Usando tensorflow en PyCharm}{22}{}%
+\contentsline {section}{\numberline {3.3}Primeros pasos con el aprendizaje automático}{23}{}%
+\contentsline {section}{\numberline {3.4}Ver lo que aprendió la red}{28}{}%
